@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-gray-500 uppercase text-xs font-bold">Ingresos Totales</h2>
+        <p class="text-3xl font-bold text-green-600">${{ "%.2f"|format(total_income) }}</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-gray-500 uppercase text-xs font-bold">Gastos Totales</h2>
+        <p class="text-3xl font-bold text-red-600">${{ "%.2f"|format(total_expense) }}</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-gray-500 uppercase text-xs font-bold">Balance</h2>
+        <p class="text-3xl font-bold {{ 'text-blue-600' if balance >= 0 else 'text-red-800' }}">${{ "%.2f"|format(balance) }}</p>
+    </div>
+</div>
+
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Transacciones Recientes</h2>
+    <a href="{{ url_for('add_transaction') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Añadir Transacción</a>
+</div>
+
+<div class="bg-white rounded shadow overflow-hidden">
+    <table class="min-w-full leading-normal">
+        <thead>
+            <tr>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fecha</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Descripción</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoría</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ t.date.strftime('%Y-%m-%d') }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ t.description }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <span class="px-2 py-1 rounded {{ 'bg-green-100 text-green-800' if t.category.type == 'Ingreso' else 'bg-red-100 text-red-800' }}">
+                        {{ t.category.name }}
+                    </span>
+                </td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-bold {{ 'text-green-600' if t.category.type == 'Ingreso' else 'text-red-600' }}">
+                    {{ '+' if t.category.type == 'Ingreso' else '-' }}${{ "%.2f"|format(t.amount) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

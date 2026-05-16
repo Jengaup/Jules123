@@ -1,0 +1,7 @@
+instance/
+*.pyc
+__pycache__/
+app.log
+church.db
+.env
+venv/

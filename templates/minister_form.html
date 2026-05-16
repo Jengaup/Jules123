@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow">
+    <h2 class="text-2xl font-bold mb-6">Añadir Ministro</h2>
+    <form action="{{ url_for('add_minister') }}" method="POST">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Nombre del Ministro</label>
+            <input type="text" name="name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Salario Base Mensual</label>
+            <input type="number" step="0.01" name="base_salary" placeholder="0.00" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Asignación para Vivienda/Servicios (Exento)</label>
+            <input type="number" step="0.01" name="housing_allowance" placeholder="0.00" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Guardar
+            </button>
+            <a href="{{ url_for('minister_compensation') }}" class="text-blue-600 hover:text-blue-800">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
